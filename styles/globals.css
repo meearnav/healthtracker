@@ -1,0 +1,9 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
+  background: #F7F5F0;
+  color: #1C1B19;
+}
+input, select, button, textarea { font-family: inherit; }
+button { cursor: pointer; }
