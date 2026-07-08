@@ -10,7 +10,12 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !user) router.push('/login');
+    if (loading) return;
+    // If a Supabase auth hash is still sitting in the URL, give the client
+    // a brief moment to finish turning it into a session before bouncing away.
+    const hasAuthHash = typeof window !== 'undefined' && window.location.hash.includes('access_token');
+    if (!user && hasAuthHash) return;
+    if (!user) router.push('/login');
   }, [loading, user]);
 
   async function logout() {

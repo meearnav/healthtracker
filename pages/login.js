@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { supabase } from '../lib/supabaseClient';
+import { useAuth } from '../lib/useAuth';
 
 export default function Login() {
   const [mode, setMode] = useState('login');
@@ -9,6 +10,13 @@ export default function Login() {
   const [error, setError] = useState('');
   const [info, setInfo] = useState('');
   const router = useRouter();
+  const { user, loading } = useAuth();
+
+  // If Supabase just processed an email-confirmation link (the #access_token=...
+  // hash), a session appears here shortly after page load. Once it does, leave.
+  useEffect(() => {
+    if (!loading && user) router.push('/');
+  }, [loading, user]);
 
   async function handleSubmit(e) {
     e.preventDefault();
